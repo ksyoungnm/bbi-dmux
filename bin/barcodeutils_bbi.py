@@ -313,7 +313,7 @@ def validate_barcode_spec(spec):
             if (property_key == BC_START or property_key == BC_END) and not isinstance(bc_property, int):
                 return (False, '%s property in entry for %s must be an int and %s found.' % (property_key, k, type(bc_property)))
             
-            elif property_key == BC_READ and (not isinstance(property_key, str) or bc_property not in _accepted_read_keys):
+            elif property_key == BC_READ and (not isinstance(bc_property, str) or bc_property not in _accepted_read_keys):
                 return (False, '%s property in entry for %s must be a string and %s found.' % (property_key, k, type(bc_property)))
 
             elif property_key == BC_WHITELIST:
@@ -586,7 +586,7 @@ def parse_fastq_barcodes(r1, r2=None, spec=None, reverse_i5=False, edit_distance
         else:
             r1_handle = FastqGeneralIterator(r1)
     if r2:
-        if not hasattr(r1, 'read'):
+        if not hasattr(r2, 'read'):
             r2_handle = FastqGeneralIterator(open_file(r2))
         else:
             r2_handle = FastqGeneralIterator(r2)
