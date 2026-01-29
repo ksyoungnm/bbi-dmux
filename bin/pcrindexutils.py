@@ -273,13 +273,6 @@ def load_pcr_indexlist(file_path):
       A01, H12 (without plate prefix)
       PA-01A, P01_12H (column-row format)
 
-    The plate format is
-
-      <row><column>
-
-    where <row> is [A-H] and <column> is a decimal
-    number in the range 01-12; that is, A01-H12.
-
     The index is a DNA sequence in lower or upper case
     but will be stored as upper case. The sequence can
     also be given as the string 'none'. If any entry,
