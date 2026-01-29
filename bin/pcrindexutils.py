@@ -191,6 +191,7 @@ def check_pcr_rxn_file(file_path, pcr_rxn_list, row_length):
             value = pcr_rxn_list[i][i_p5_index]
             if(tmp_dict.get(key) != None and tmp_dict[key] != value):
                 print('Error: P5 well id "%s" matches more than one sequence in file "%s".' % (key, file_path), file=sys.stderr)
+                errorFlag = 1
             else:
                 tmp_dict[key] = value
 
@@ -203,6 +204,7 @@ def check_pcr_rxn_file(file_path, pcr_rxn_list, row_length):
             value = pcr_rxn_list[i][i_p5_name]
             if(tmp_dict.get(key) != None and tmp_dict[key] != value):
                 print('Error: P5 index sequence "%s" matches more than one well id in file "%s".' % (key, file_path), file=sys.stderr)
+                errorFlag = 1
             else:
                 tmp_dict[key] = value
 
@@ -213,6 +215,7 @@ def check_pcr_rxn_file(file_path, pcr_rxn_list, row_length):
             value = pcr_rxn_list[i][i_p7_index]
             if(tmp_dict.get(key) != None and tmp_dict[key] != value):
                 print('Error: P7 well id "%s" matches more than one sequence in file "%s".' % (key, file_path), file=sys.stderr)
+                errorFlag = 1
             else:
                 tmp_dict[key] = value
 
@@ -225,6 +228,7 @@ def check_pcr_rxn_file(file_path, pcr_rxn_list, row_length):
             value = pcr_rxn_list[i][i_p7_name]
             if(tmp_dict.get(key) != None and tmp_dict[key] != value):
                 print('Error: P7 index sequence "%s" matches more than one well id in file "%s".' % (key, file_path), file=sys.stderr)
+                errorFlag = 1
             else:
                 tmp_dict[key] = value
 
