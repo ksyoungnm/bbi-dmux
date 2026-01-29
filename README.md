@@ -5,6 +5,17 @@ This pipeline is the under-construction pipe for processing 2-level and 3-level 
 
 The pipeline is run in two parts, the first is [bbi-dmux](https://github.com/bbi-lab/bbi-dmux) which runs the demultiplexing, and the second is [bbi-sci](https://github.com/bbi-lab/bbi-sci/) which completes the preprocessing. The instructions below apply to both pipelines, and both pipelines can use the same configuration file.
 
+## Multi-Plate PCR Index Support
+
+**bbi-dmux supports multi-plate PCR index experiments!** You can specify exact mappings between wells in multiple plates and their corresponding P5 and P7 indexes using the `params.pcr_index_pair_file` parameter. This enables experiments with hundreds or thousands of wells across multiple plates. See [MULTIPLATE_PCR_INDEXES.md](MULTIPLATE_PCR_INDEXES.md) for detailed documentation and examples.
+
+Quick example using the PCR index pair file format:
+```csv
+pcr_rxn_name,p5_well,p5_index,p7_well,p7_index
+rxn_1,P01-A05,GCTCTCGCCT,P01-B06,TCGGATTCGG
+rxn_2,P02-A05,CTCCATCGAG,P02-B06,GTCGCCAACC
+```
+
 ## Prerequisites
 1. This script requires Nextflow version >= 20.07.1 and <= 22.10.4.
 

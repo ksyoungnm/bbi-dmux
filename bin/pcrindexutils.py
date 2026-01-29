@@ -85,7 +85,11 @@ def check_pcr_rxn_row(file_path, i_row, row_length, row_list):
         if(mobj == None):
              print('Error: bad reaction name in row %d of PCR reaction file "%s".' % (i_row, file_path), file=sys.stderr)
              return(False)
-        mobj = re.match('^([pP][0-9]+[-])?[a-hA-H]([0][1-9]|[1][0-2])$', row_list[1])
+        # Allow flexible well ID formats:
+        # - Alphanumeric plate IDs (PA, PB, P01, etc.)
+        # - Hyphen or underscore separator
+        # - Row-column (A01) or column-row (01A) format
+        mobj = re.match('^([a-zA-Z][a-zA-Z0-9]*[-_])?([a-hA-H]([0][1-9]|[1][0-2])|([0][1-9]|[1][0-2])[a-hA-H])$', row_list[1])
         if(mobj == None):
              print('Error: bad P5 well name in row %d of PCR reaction file "%s".' % (i_row, file_path), file=sys.stderr)
              return(False)
@@ -94,7 +98,11 @@ def check_pcr_rxn_row(file_path, i_row, row_length, row_list):
         if(mobj == None):
              print('Error: bad P5 index in row %d of PCR reaction file "%s".' % (i_row, file_path), file=sys.stderr)
              return(False)
-        mobj = re.match('^([pP][0-9]+[-])?[a-hA-H]([0][1-9]|[1][0-2])$', row_list[3])
+        # Allow flexible well ID formats:
+        # - Alphanumeric plate IDs (PA, PB, P01, etc.)
+        # - Hyphen or underscore separator
+        # - Row-column (A01) or column-row (01A) format
+        mobj = re.match('^([a-zA-Z][a-zA-Z0-9]*[-_])?([a-hA-H]([0][1-9]|[1][0-2])|([0][1-9]|[1][0-2])[a-hA-H])$', row_list[3])
         if(mobj == None):
              print('Error: bad P7 well name in row %d of PCR reaction file "%s".' % (i_row, file_path), file=sys.stderr)
              return(False)
@@ -183,6 +191,7 @@ def check_pcr_rxn_file(file_path, pcr_rxn_list, row_length):
             value = pcr_rxn_list[i][i_p5_index]
             if(tmp_dict.get(key) != None and tmp_dict[key] != value):
                 print('Error: P5 well id "%s" matches more than one sequence in file "%s".' % (key, file_path), file=sys.stderr)
+                errorFlag = 1
             else:
                 tmp_dict[key] = value
 
@@ -195,6 +204,7 @@ def check_pcr_rxn_file(file_path, pcr_rxn_list, row_length):
             value = pcr_rxn_list[i][i_p5_name]
             if(tmp_dict.get(key) != None and tmp_dict[key] != value):
                 print('Error: P5 index sequence "%s" matches more than one well id in file "%s".' % (key, file_path), file=sys.stderr)
+                errorFlag = 1
             else:
                 tmp_dict[key] = value
 
@@ -205,6 +215,7 @@ def check_pcr_rxn_file(file_path, pcr_rxn_list, row_length):
             value = pcr_rxn_list[i][i_p7_index]
             if(tmp_dict.get(key) != None and tmp_dict[key] != value):
                 print('Error: P7 well id "%s" matches more than one sequence in file "%s".' % (key, file_path), file=sys.stderr)
+                errorFlag = 1
             else:
                 tmp_dict[key] = value
 
@@ -217,6 +228,7 @@ def check_pcr_rxn_file(file_path, pcr_rxn_list, row_length):
             value = pcr_rxn_list[i][i_p7_name]
             if(tmp_dict.get(key) != None and tmp_dict[key] != value):
                 print('Error: P7 index sequence "%s" matches more than one well id in file "%s".' % (key, file_path), file=sys.stderr)
+                errorFlag = 1
             else:
                 tmp_dict[key] = value
 
@@ -251,20 +263,19 @@ def load_pcr_indexlist(file_path):
     The pcr_rxn_name is printable text restricted to the
     characters in the regex '^[-a-zA-Z0-9_]+$'.
 
-    The p5_well and p7_well name format is
+    The p5_well and p7_well name format supports multiple variations:
 
-      <plate_id>:<well_id>
+      <plate_id><separator><well_id>
 
-    where the plate_id has the format
+    where:
+    - plate_id: alphanumeric string starting with a letter (e.g., P01, PA, PB1)
+    - separator: hyphen (-) or underscore (_)
+    - well_id: row-column (A01-H12) or column-row (01A-12H) format
 
-      Pnn
-
-    where nn are decimal digits. The plate format is
-
-      <row><column>
-
-    where <row> is [A-H] and <column> is a decimal
-    number in the range 01-12; that is, A01-H12.
+    Examples of valid well IDs:
+      P01-A01, PA-A01, PB_B05 (with plate prefix)
+      A01, H12 (without plate prefix)
+      PA-01A, P01_12H (column-row format)
 
     The index is a DNA sequence in lower or upper case
     but will be stored as upper case. The sequence can
