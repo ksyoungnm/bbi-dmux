@@ -72,7 +72,7 @@ def main():
         print("  2. Each P5 sequence must map to exactly one P5 well ID")
         print("  3. Each P7 well ID must map to exactly one P7 sequence")
         print("  4. Each P7 sequence must map to exactly one P7 well ID")
-        print("  5. Each (P5 well, P7 well) pair must be unique")
+        print("  5. Each (P5 well, P7 well) pair must be unique.")
         print("\nValid pattern (combinatorial barcoding):")
         print("  - Same P5 well + sequence paired with multiple P7 wells")
         print("  - Example: PA-A01 (seq1) + PA-01A (seq2), PA-01B (seq3), ...")
