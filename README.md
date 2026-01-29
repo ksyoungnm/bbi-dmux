@@ -5,6 +5,20 @@ This pipeline is the under-construction pipe for processing 2-level and 3-level 
 
 The pipeline is run in two parts, the first is [bbi-dmux](https://github.com/bbi-lab/bbi-dmux) which runs the demultiplexing, and the second is [bbi-sci](https://github.com/bbi-lab/bbi-sci/) which completes the preprocessing. The instructions below apply to both pipelines, and both pipelines can use the same configuration file.
 
+## New Feature: Multi-Plate P5/P7 Index Support
+
+**bbi-dmux now supports multi-plate barcode files!** You can now specify P5 and P7 indexes from multiple plates in a single barcode file, enabling experiments with hundreds or thousands of wells. See [MULTIPLATE_SUPPORT.md](MULTIPLATE_SUPPORT.md) for detailed documentation and examples.
+
+Quick example of the new format:
+```
+P01-A01	TCCTACCAGT
+P01-A02	GCGTTGGAGC
+P02-A01	AGTCGATTCA
+P02-A02	GCATTAGCCT
+```
+
+The single-plate format (backward compatible) continues to work as before.
+
 ## Prerequisites
 1. This script requires Nextflow version >= 20.07.1 and <= 22.10.4.
 
