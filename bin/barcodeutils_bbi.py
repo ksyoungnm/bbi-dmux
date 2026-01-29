@@ -394,26 +394,6 @@ def valid_whitelist(whitelist, variable_lengths=False):
 
 
 def load_whitelist(whitelist, variable_lengths=False):
-    """
-    Load whitelist from a file. Supports both single-plate and multi-plate formats.
-    
-    Single-plate format (backward compatible):
-        A01	CTCCATCGAG
-        A02	TTGGTAGTCG
-    
-    Multi-plate format:
-        P01-A01	CTCCATCGAG
-        P01-A02	TTGGTAGTCG
-        P02-A01	GCTTACGTAG
-    
-    Args:
-        whitelist (str): Path to whitelist file
-        variable_lengths (bool): Allow variable length sequences
-    
-    Returns:
-        dict or set: If tab-separated, returns dict mapping sequences to well IDs.
-                     Otherwise returns set of sequences.
-    """
     if not os.path.exists(whitelist):
         raise ValueError('Specified whitelist file does not exist %s' % whitelist)
 
